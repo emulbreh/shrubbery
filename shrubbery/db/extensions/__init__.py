@@ -1,0 +1,1 @@
+from shrubbery.db.extensions.rel_fields import ForeignKey, ManyToManyField, OneToOneField

@@ -1,0 +1,21 @@
+{% ifnotequal page.paginator.num_pages 1 %}
+<div class="s-paginator">
+    {% if page.has_previous %}
+        <a href="?{% getvars page=page.previous_page_number %}" class="previous">&lt;</a>
+    {% endif %}
+    {% for interval in intervalls %}
+        {% if interval.ellipsis %}
+            <span class="pagerange ellipsis">&hellip;</span>
+        {% else %}          
+            <span class="pagerange{% if interval.current %} current{% endif %}">
+                {% for num in interval.range %}
+                    <a href="?{% getvars page=num %}">{{ num }}</a>
+                {% endfor %}
+            </span>
+        {% endif %}
+    {% endfor %}
+    {% if page.has_next %}
+        <a href="?{% getvars page=page.next_page_number %}" class="next">&gt;</a>
+    {% endif %}
+</div>
+{% endifnotequal %}

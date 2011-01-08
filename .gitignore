@@ -1,0 +1,6 @@
+.DS_Store
+*.pyc
+*.svn
+_workinprogress
+docs/build
+env
