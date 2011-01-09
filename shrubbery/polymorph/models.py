@@ -7,7 +7,7 @@ from shrubbery.db.utils import get_sub_models, get_query_set, get_model, remove_
 from shrubbery.db.union import UnionQuerySet
 from shrubbery.db import extensions as ext
 
-polymorph_settings = settings.local()
+polymorph_settings = settings['shrubbery.polymorph']
 
 ### querysets and managers ###
 

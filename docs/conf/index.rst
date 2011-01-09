@@ -21,10 +21,6 @@ Provides utilities for app-local settings::
     # .. or via direct import
     from shrubbery.polymorph.conf import settings
     
-    # settings for the app that contains the current module:
-    local_settings = settings.local()
-    local_settings.FOO
-
 
 Providing app-local settings::
 

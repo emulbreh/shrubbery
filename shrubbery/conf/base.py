@@ -55,20 +55,6 @@ class Registry(object):
         from django.conf import settings as global_settings
         return getattr(global_settings, name)
         
-    def local(self):
-        name = inspect.currentframe().f_back.f_globals['__name__']
-        if name in self._module_to_app:
-            calling_app = self._module_to_app[name]
-        else:
-            calling_app = None
-            for app in self.INSTALLED_APPS:
-                if name.startswith("%s." % app):
-                    calling_app = app
-                    break
-            assert calling_app is not None, "shrubbery.conf.settings.local() must be called from an installed app, called from: %s" % name
-            self._module_to_app[name] = calling_app
-        return self[calling_app]
-        
 settings = Registry()
 
 app_settings = {}
