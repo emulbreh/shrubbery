@@ -1,7 +1,7 @@
 import re
 from django.db import models
 
-from shrubbery.utils import camel_case
+from shrubbery.utils.text import camel_case
 
 def no_related_name(hidden=False):
     no_related_name._next += 1

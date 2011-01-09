@@ -1,5 +1,5 @@
 .. module:: shrubbery.tagging
-.. include:: _lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 .. _tagging:
 
 =================

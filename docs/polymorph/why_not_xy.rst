@@ -1,4 +1,4 @@
-.. include:: ../_lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 
 =================
 Why not use … ?
@@ -38,6 +38,8 @@ But as a consequence of using raw SQL and limitations of `django.contrib.content
     foo_qs.exclude(tags=tag)
     # workaround with django-tagging:
     foo_qs.exclude(pk__in=TaggedItem.objects.get_by_model(foo_qs.values('pk').query)
+
+.. note:: When I wrote this, `django-taggit`_ didn't exist. While it has a much nicer API for querying the tagged objects it still suffers from its contenttypes dependency: it cannot support aggregates.
 
 
 .. _why_not_contenttypes:

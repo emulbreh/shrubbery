@@ -1,4 +1,4 @@
-.. include:: ../_lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 
 .. _polymorph_motivation:
 
@@ -8,12 +8,12 @@ shrubbery.polymorph -- Motivation and Concept
 
 Assume you have two models - ``Foo`` and ``Bar`` - that you want to tag with ``Tag`` objects. And you want to
 
-    * query both models directly: ``Foo.*.filter(tags__name="TAG")``,
-    * calculate the total number of tag uses (across ``Foo`` and ``Bar``) to display a tag-cloud, 
-    * avoid writing raw SQL,
-    * avoid using `django-tagging`_ for :ref:`some reason <why_not_django_tagging>`,
-    * avoid using `django.contrib.contenttypes`_ for :ref:`a similar reason <why_not_contenttypes>`,
-    * avoid patching django (as `contenttypes` `does <http://code.djangoproject.com/browser/django/trunk/django/db/models/sql/subqueries.py#L46>`_).
+* query both models directly: ``Foo.objects.filter(tags__name="TAG")``,
+* calculate the total number of tag uses (across ``Foo`` and ``Bar``) to display a tag-cloud, 
+* avoid writing raw SQL,
+* avoid using django-tagging_ for :ref:`some reason <why_not_django_tagging>`,
+* avoid using `django.contrib.contenttypes`_ for :ref:`a similar reason <why_not_contenttypes>`,
+* avoid patching django (as `contenttypes` does).
 
 The following code samples will not always actually work, as implementation details are left out. The last iteration however, will be fully functional.
 
@@ -172,14 +172,14 @@ Iteration V
         name = models.CharField(max_length=100)
         object_set = polymorph.ManyToManyField()
     
-    class Foo(polymorph.Object):
+    class Foo(polymorph.models.Object):
         tags = polymorph.ReverseField(Tag, 'object_set')
     
-    class Bar(polymorph.Object):
+    class Bar(polymorph.models.Object):
         tags = polymorph.ReverseField(Tag, 'object_set')
 
-:class:`ObjectIdentity` also stores the :class:`Type <shrubbery.polymorph.Type>` of instances and thus allows you to get the corresponding :class:`Object <shrubbery.polymorph.Object>` instance. :class:`Type` is an equivalent of `ContentType`_ (you can get the corresponding `ContentType`_ through :attr:`Type.content_type <shrubbery.polymorph.Type.content_type>`) but is a subclass of :class:`Object` itself. This is useful if you need polymorph relations to models, e.g. in authorization code.
+:class:`ObjectIdentity` also stores the :class:`Type <shrubbery.polymorph.Type>` of instances and thus allows you to get the corresponding :class:`Object <shrubbery.polymorph.models.Object>` instance. :class:`Type` is an equivalent of `ContentType`_ (you can get the corresponding `ContentType`_ through :attr:`Type.content_type <shrubbery.polymorph.Type.content_type>`) but is a subclass of :class:`Object` itself. This is useful if you need polymorph relations to models, e.g. in authorization code.
 
-Given a `QuerySet`_ like ``objects = Tag.objects.get(name="TAG").object_set.all()`` you could get all matching ``Foo`` instances with something like ``Foo.objects.filter(pk__in=objects.values('pk').query)``. But that forces an unnecessary join with :class:`ObjectIdentity` when we could just replace the :class:`ObjectIdentity` table with the ``Foo`` table. You can do this with :meth:`objects.coerce(Foo) <shrubbery.polymorph.ObjectIdentityQuerySet.coerce>``.
+Given a `QuerySet`_ like ``objects = Tag.objects.get(name="TAG").object_set.all()`` you could get all matching ``Foo`` instances with something like ``Foo.objects.filter(pk__in=objects.values('pk').query)``. But that forces an unnecessary join with :class:`ObjectIdentity` when we could just replace the :class:`ObjectIdentity` table with the ``Foo`` table. You can do this with :meth:`objects.coerce(Foo) <shrubbery.polymorph.models.ObjectIdentityQuerySet.coerce>``.
 
 

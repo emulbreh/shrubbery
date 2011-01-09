@@ -1,21 +1,20 @@
 .. module:: shrubbery.polymorph
-
-.. include:: _lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 
 .. _polymorph:
+
 
 ===================
 shrubbery.polymorph
 ===================
-This module provides unique ids accross models that can be used to create efficient generic many-to-many and foreign-key relations similar to those in `django.contrib.contenttypes`_. For a step by step explanation of its motivation and concept, see :ref:`Motivation and Concept <polymorph_motivation>`.
-For reasons not to use `django.contrib.contenttypes`_, see :ref:`why_not_contenttypes`
+This module provides unique ids accross models that can be used to create efficient generic many-to-many and foreign-key relations similar to those in `django.contrib.contenttypes`_. For a step by step explanation of its motivation and concept, see :ref:`Motivation and Concept <polymorph_motivation>`. For reasons not to use contenttypes, see :ref:`why_not_contenttypes`
 
 .. code-block:: python
 
     from shrubbery import polymorph
     from django.db import models
     
-    class Post(ObjectModel):
+    class Post(polymorph.models.Object):
         title = models.CharField(max_length=42)
         ...
 
@@ -34,7 +33,7 @@ Models
 
 .. method:: Object.save(**kwargs)
 
-    Creates a new :class:`ObjectIdentity` for unsaved instances. Make sure you call ``super().save()`` from subclasses.
+    Creates a new :class:`ObjectIdentity` for unsaved instances. Make sure you call ``super(…).save()`` from subclasses.
     
 
 
@@ -75,7 +74,7 @@ Models
 
 .. attribute:: Type.content_type
 
-    Only available if `django.contrib.contenttypes` is installed. The corresponding ContentType instance. This may raise `ContentType.DoesNotExist`.
+    Only available if `contenttypes <django_contenttypes>`_ is installed. The corresponding ContentType instance. This may raise ``ContentType.DoesNotExist``.
 
 
 .. class:: ObjectIdentity
@@ -187,7 +186,7 @@ like regular `ForeignKey`_ or `ManyToManyField`_ related managers.
     
     Example::
     
-        class Post(polymorph.Object):
+        class Post(polymorph.models.Object):
             ...
             
         class Comment(models.Model):
@@ -217,7 +216,7 @@ like regular `ForeignKey`_ or `ManyToManyField`_ related managers.
 
 Example::
 
-    class Post(polymorph.Object):
+    class Post(polymorph.models.Object):
         title = models.CharField(max_length=255)
         tags = polymorph.ReverseField(Tag, 'object_set')
         comments = polymorph.ReverseField(Comment, 'obj')

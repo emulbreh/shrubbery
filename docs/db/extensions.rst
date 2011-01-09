@@ -1,5 +1,5 @@
 .. module:: shrubbery.db.extensions
-
+.. _db_extensions:
 
 =======================
 shrubbery.db.extensions
@@ -11,9 +11,5 @@ This module provides extensions for classes in `django.db.models`.
 .. class:: ForeignKey()
 
 .. class:: OneToOneField()
-
-.. class:: Manager()
-
-.. class:: QuerySet()
 
 .. class:: Model()

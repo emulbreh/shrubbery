@@ -1,5 +1,5 @@
 .. module:: shrubbery.utils.time
-.. include:: ../_lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 .. _utils_time:
 
 ====================

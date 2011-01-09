@@ -1,6 +1,7 @@
 .DS_Store
 *.pyc
 *.svn
+fabfile.py
 _workinprogress
 docs/build
 env

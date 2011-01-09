@@ -1,5 +1,5 @@
 .. module:: shrubbery.db.union
-.. include:: ../_lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 
 ==================
 shrubbery.db.union

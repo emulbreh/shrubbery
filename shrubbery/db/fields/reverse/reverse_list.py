@@ -1,7 +1,7 @@
 from itertools import izip
 from django.db import models
 
-from shrubbery.utils import camel_case
+from shrubbery.utils.text import camel_case
 from shrubbery.db.utils import create_intermediate_model, clean_slice, get_model_ref, get_query_set
 from shrubbery.db.fields import VirtualField
 from shrubbery.db.transaction import commit_on_success_unless_managed

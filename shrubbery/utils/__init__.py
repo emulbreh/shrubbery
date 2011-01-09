@@ -4,6 +4,8 @@ from django.template import Context, RequestContext, Template
 from django.template.loader import select_template
 from django.conf import settings
 
+from shrubbery.utils.autodiscovery import autodiscover
+
 
 class CachedProperty(object):
     def __init__(self, func, attr=None):

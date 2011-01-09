@@ -1,15 +1,9 @@
 .. module:: shrubbery.utils
-.. _utils:
+.. _utils_misc:
 
-===================
-``shrubbery.utils``
-===================
-
-.. toctree::
-   :maxdepth: 2
-   :glob:
-   
-   utils/*
+===============
+shrubbery.utils
+===============
    
 .. function:: class_property(func)
 

@@ -1,6 +1,6 @@
 .. module:: shrubbery.db.fields
 
-.. include:: ../_lib/django_doc_links.rst
+.. include:: ../_lib/links.rst
 
 ===================
 shrubbery.db.fields
