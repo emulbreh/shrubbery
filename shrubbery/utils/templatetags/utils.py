@@ -1,6 +1,8 @@
 import re
 from django import template
 from django.utils.safestring import mark_safe
+from django.utils.encoding import force_unicode
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -145,3 +147,19 @@ def getvars(parser, token):
         name, exp = bits.split("=", 1)
         update.append((name, parser.compile_filter(exp)))
     return GetvarsNode(update)
+
+
+re_widont = re.compile(r'\s+(\S+\s*)$')
+@register.filter
+def widont(value, count=1):
+    for i in range(count):
+        value = re_widont.sub(lambda m: u"\u00A0%s" % m.group(1), force_unicode(value))
+    return value
+
+
+re_widont_html = re.compile(r'([^<>\s])\s+([^<>\s]+\s*)(</?(?:pre|code|address|blockquote|br|dd|div|dt|fieldset|form|h[1-6]|li|noscript|p|td|th)[^>]*>|$)', re.IGNORECASE)
+@register.filter
+def widont_html(value):
+    return re_widont_html.sub(lambda m: u'%s&nbsp;%s%s' % m.groups(), force_unicode(value))
+
+
