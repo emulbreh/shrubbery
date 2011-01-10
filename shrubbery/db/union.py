@@ -1,6 +1,6 @@
 import bisect
 import itertools
-from django.db import connection
+from django.db import connections
 from django.db.models.query import QuerySet
 from django.db.models.query_utils import deferred_class_factory
 from django.db.models.sql.constants import GET_ITERATOR_CHUNK_SIZE
@@ -179,8 +179,9 @@ class UnionQuerySet(object):
         
     def get_common_fields(self, check_type=True, local=True):
         model_fields = []
-        for model in self.models:
-            fields_with_dbtype = set((field.name, field.db_type()) for field in model._meta.fields)
+        for queryset in self.querysets:
+            db = queryset.db
+            fields_with_dbtype = set((field.name, field.db_type(connection=connections[db])) for field in queryset.model._meta.fields)
             model_fields.append(fields_with_dbtype)        
         return tuple(name for name, db_type in reduce_and(model_fields))
 
@@ -200,6 +201,7 @@ class UnionQuerySet(object):
         
     def _execute_union(self, fields):
         # TODO: handle ordering, cache results
+        # FIXME: this is horribly broken
         sql, params = self.as_sql(fields)
         cursor = connection.cursor()
         cursor.execute(sql, params)
