@@ -103,17 +103,20 @@ class ListView(GenericView):
                 terms.append((term, op == '-'))
         return terms
     
+    def get_term_q(self, term):
+        field_q_objs = []
+        for field in self.search_fields:
+            q = models.Q(**{"%s__%s" % (field, self.search_lookup): term})
+            field_q_objs.append(q)
+        return reduce_or(field_q_objs)
+    
     def get_search_q(self, query):
         terms = self.get_search_terms(query)
         if not terms or not self.search_fields:
             return None
         term_q_objs = []
         for term, negate in terms:
-            field_q_objs = []
-            for field in self.search_fields:
-                q = models.Q(**{"%s__%s" % (field, self.search_lookup): term})
-                field_q_objs.append(q)
-            term_q = reduce_or(field_q_objs)
+            term_q = self.get_term_q(term)
             if negate:
                 term_q = ~term_q
             term_q_objs.append(term_q)
