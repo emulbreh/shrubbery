@@ -126,5 +126,5 @@ class ModelAuthenticationContext(AuthenticationContext):
     def get_user_by_id(self, user_id):
         try:
             return self.queryset.get(pk=user_id)
-        except self.model.DoesNotExist:
+        except self.queryset.model.DoesNotExist:
             raise ValueError("invalid user id: %s" % user_id)
