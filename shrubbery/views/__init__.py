@@ -103,20 +103,20 @@ class ListView(GenericView):
                 terms.append((term, op == '-'))
         return terms
     
-    def get_term_q(self, term):
+    def get_term_q(self, request, term):
         field_q_objs = []
         for field in self.search_fields:
             q = models.Q(**{"%s__%s" % (field, self.search_lookup): term})
             field_q_objs.append(q)
         return reduce_or(field_q_objs)
     
-    def get_search_q(self, query):
+    def get_search_q(self, request, query):
         terms = self.get_search_terms(query)
         if not terms or not self.search_fields:
             return None
         term_q_objs = []
         for term, negate in terms:
-            term_q = self.get_term_q(term)
+            term_q = self.get_term_q(request, term)
             if negate:
                 term_q = ~term_q
             term_q_objs.append(term_q)
@@ -126,7 +126,7 @@ class ListView(GenericView):
         qs = self.queryset.all()
         if self.searchable:            
             query = request.GET.get(self.search_var, '')
-            q = self.get_search_q(query)
+            q = self.get_search_q(request, query)
             if q:
                 qs = qs.filter(q)
         return qs
