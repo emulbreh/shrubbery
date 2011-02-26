@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse as django_reverse
 from django.utils.importlib import import_module
 from django.db.models import Model
 from django.conf import settings
+from django.http import HttpResponseRedirect
 
 from shrubbery.utils import force_iter, autodiscovery
 
@@ -96,7 +97,7 @@ class UrlMap(object):
         return django_reverse(view, kwargs=obj_kwargs)
     
     def redirect_to(self, obj, use_case=None, kwargs=None):
-        return HttpResponseRedirect(self.reverse(obj, use_case, args, kwargs))
+        return HttpResponseRedirect(self.reverse(obj, use_case, kwargs))
         
     def autodiscover(self):
         for app, module in autodiscovery.autodiscover('urlmap').items():
