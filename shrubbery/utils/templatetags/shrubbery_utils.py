@@ -62,7 +62,7 @@ def getvars(parser, token):
     bits = token.split_contents()
     update = []
     for bit in bits[1:]:
-        name, exp = bits.split("=", 1)
+        name, exp = bit.split("=", 1)
         update.append((name, parser.compile_filter(exp)))
     return GetvarsNode(update)
 
