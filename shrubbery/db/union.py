@@ -9,11 +9,10 @@ from django.db.models.loading import cache as app_cache
 
 from shrubbery.db.utils import get_query_set, get_sub_models
 from shrubbery.utils import reduce_and
-from shrubbery.utils.pycompat import *
 
 MODEL_COL = '__model'
 
-def sorted_union_generator(querysets, key=None, reverse=False):    
+def sorted_union_generator(querysets, key=None, reverse=False):
     sorted_seqs = []
     def _next(it):
         try:

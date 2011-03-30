@@ -3,9 +3,9 @@ import hashlib
 import hmac
 import base64
 from datetime import timedelta
+from functools import wraps
 
 from django.conf import settings
-from django.utils.functional import wraps
 from django.http import HttpResponseForbidden
 
 from shrubbery.utils.dt import timedelta_seconds
