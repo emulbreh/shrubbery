@@ -97,7 +97,7 @@ class UrlMap(object):
         return django_reverse(view, kwargs=obj_kwargs)
     
     def redirect_to(self, obj, use_case=None, kwargs=None):
-        return HttpResponseRedirect(self.reverse(obj, use_case, args, kwargs))
+        return HttpResponseRedirect(self.reverse(obj, use_case, kwargs))
         
     def autodiscover(self):
         for app, module in autodiscovery.autodiscover('urlmap').items():

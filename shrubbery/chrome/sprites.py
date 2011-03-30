@@ -1,5 +1,7 @@
 import os
+import time
 import subprocess
+from hashlib import sha1
 
 
 VERTICAL, HORIZONTAL = 'v', 'h'
@@ -36,9 +38,12 @@ class Sprite(object):
     def relpath(self):
         return "icons/%s.png" % self.name
     
-    def generate_scss(self, f, name=None):
+    def generate_scss(self, f, name=None, add_hash=True):
         name = name or self.name
-        f.write(".%s{background-image: url(%s);}\n\n" % (name, self.relpath))
+        url = self.relpath
+        if add_hash:
+            url += '?%s' % sha1(self.relpath + str(time.time())).hexdigest()
+        f.write(".%s{background-image: url(%s);}\n\n" % (name, url))
         offset = 0
         shortcut_mixin = []
         for image in self.images:

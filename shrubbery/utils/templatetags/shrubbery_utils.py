@@ -34,6 +34,7 @@ register.filter(name='max')(mapped_filter(max))
 register.filter(name='pair')(lambda a, b: (a, b))
 register.filter(name='get')(lambda a, b: a.get(b))
 register.filter(name='getattr')(lambda a, b: getattr(a, b, ''))
+register.filter(name='hasattr')(lambda a, b: hasattr(a, b))
 register.filter(name='getitem')(lambda a, b: a[b])
 register.filter(name='repeat')(lambda a, b: mark_safe(unicode(a) * b))
 register.filter(name='range')(lambda n: xrange(n))
@@ -51,7 +52,7 @@ class GetvarsNode(template.Node):
             if key[-1] == "+":
                 key = key[:-1]
             elif key in getvars:
-                del getvars[key]                
+                del getvars[key]
             update[key] = exp.resolve(context)
         getvars.update(update)
         return getvars.urlencode()
@@ -62,7 +63,7 @@ def getvars(parser, token):
     bits = token.split_contents()
     update = []
     for bit in bits[1:]:
-        name, exp = bits.split("=", 1)
+        name, exp = bit.split("=", 1)
         update.append((name, parser.compile_filter(exp)))
     return GetvarsNode(update)
 
