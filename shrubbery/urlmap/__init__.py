@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse as django_reverse
 from django.utils.importlib import import_module
 from django.db.models import Model
 from django.conf import settings
+from django.http import HttpResponseRedirect
 
 from shrubbery.utils import force_iter, autodiscovery
 
