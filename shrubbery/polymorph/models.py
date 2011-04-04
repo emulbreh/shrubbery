@@ -203,6 +203,12 @@ class Object(models.Model):
         if not self.pk:
             self.id = ObjectIdentity.objects.create(type=Type.objects.get_for_instance(self))
         return super(Object, self).save(**kwargs)
+        
+    def cast(self):
+        model = self.id.type.model
+        if self.__class__ == self:
+            return self
+        return model.objects.get(pk=self.pk)
 
 
 class Type(Object):
