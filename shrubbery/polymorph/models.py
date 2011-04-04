@@ -85,17 +85,20 @@ class ObjectIdentityManager(Manager):
 
     class Meta:
         queryset = ObjectIdentityQuerySet
-        
+
+
 class ObjectIdentitiesDescriptor(object):
     def __get__(self, instance, model=None):
         if instance:
             raise AttributeError('Object.indentities is only accessible on models, not on Object instances.')
         return ObjectIdentityManager(for_model=model)
-        
+
+
 class ObjectQuerySet(models.query.QuerySet):
     @Manager.proxy_method
     def identities(self):
         return ObjectIdentity.objects.filter(pk__in=self.values('pk').query)
+
 
 class ObjectManager(ObjectIdentityManager):
     def get_query_set(self):
@@ -104,7 +107,7 @@ class ObjectManager(ObjectIdentityManager):
             return ObjectIdentity.objects.filter(type__in=[Type.objects.get_for_model(model) for model in models])
         else:
             return super(ObjectManager, self).get_query_set()
-            
+
 
 class TypeManager(ObjectManager):
     _model_cache = {}
@@ -151,6 +154,7 @@ class TypeManager(ObjectManager):
     def clear_cache(self):
         self.__class__._model_cache = {}
         self.__class__._pk_cache = {}
+
 
 class TypeField(ext.ForeignKey):
     def __init__(self, **kwargs):

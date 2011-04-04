@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.utils.functional import wraps
+from functools import wraps
 
 def wrap_with_savepoint(func):
     @wraps(func)

@@ -1,6 +1,5 @@
-from __future__ import with_statement
 import threading
-from django.utils.functional import wraps
+from functools import wraps
 from django.utils.importlib import import_module
 
 from shrubbery.authentication.exceptions import AuthenticationError, Http403

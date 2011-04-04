@@ -1,6 +1,5 @@
 from django.db import models, connection
 from django.db.models.query import QuerySet
-from django.utils.functional import curry
 
 from shrubbery.utils.text import camel_case
 from shrubbery.db.utils import no_related_name, create_intermediate_model

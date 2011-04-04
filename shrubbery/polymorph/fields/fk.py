@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.functional import curry
 from shrubbery.db import extensions as ext
 from shrubbery.db.utils import get_sub_models, no_related_name
 
