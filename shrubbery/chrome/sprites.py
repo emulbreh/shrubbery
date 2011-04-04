@@ -44,13 +44,13 @@ class Sprite(object):
         if add_hash:
             url += '?%s' % sha1(self.relpath + str(time.time())).hexdigest()
         f.write(".%s{background-image: url(%s);}\n\n" % (name, url))
-        offset = 0
+        y_offset = self.offsets[1]
         shortcut_mixin = []
         for image in self.images:
-            x, y = -self.offsets[0], -offset
+            x, y = -self.offsets[0], -y_offset
             f.write("@mixin %s-%s($dx : 0px, $dy : 0px){@extend .%s;background-position: %spx + $dx %spx + $dy;}\n" % (name, image.name, name, x, y))
             shortcut_mixin.append("&.%s{@include %s-%s($dx, $dy);}" % (image.name, name, image.name))
-            offset += image.size[1] + self.offsets[1]
+            y_offset += image.size[1] + 2 * self.offsets[1]
         f.write("\n@mixin %s($dx : 0px, $dy : 0px){\n    %s\n}\n" % (name, "\n    ".join(shortcut_mixin)))
         
     def generate_image(self, f):
@@ -60,9 +60,9 @@ class Sprite(object):
             h = max(image.size[1], h)
         cmd = ['montage', 
             '-background', 'transparent', 
-            '-tile', '1x%s' % len(self.images),
+            '-tile', '1x%s' % len(self.images), 
             '-gravity', 'NorthWest', 
-            '-geometry', '%sx%s' % (w + self.offsets[0], h + self.offsets[1]),
+            '-geometry', '%sx%s+%s+%s' % (w, h, self.offsets[0], self.offsets[1]),
         ]
         cmd += [image.path for image in self.images]
         cmd.append('-')
