@@ -2,6 +2,7 @@ import re
 from django import template
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
+from django.utils import simplejson
 
 register = template.Library()
 
@@ -38,7 +39,7 @@ register.filter(name='hasattr')(lambda a, b: hasattr(a, b))
 register.filter(name='getitem')(lambda a, b: a[b])
 register.filter(name='repeat')(lambda a, b: mark_safe(unicode(a) * b))
 register.filter(name='range')(lambda n: xrange(n))
-
+register.filter(name='json')(lambda x: simplejson.dumps(x))
 
 class GetvarsNode(template.Node):
     def __init__(self, update=None):
