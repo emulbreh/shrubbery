@@ -121,21 +121,26 @@ class ListView(GenericView):
                 term_q = ~term_q
             term_q_objs.append(term_q)
         return reduce_and(term_q_objs)
-    
+        
+    def get_search_query(self, request):
+        return request.GET.get(self.search_var, '')
+
     def get_query_set(self, request):
         qs = self.queryset.all()
-        if self.searchable:            
-            query = request.GET.get(self.search_var, '')
+        if self.searchable:
+            query = self.get_search_query(request)
+            request.view_context.data['search_query'] = query
             q = self.get_search_q(request, query)
             if q:
                 qs = qs.filter(q)
         return qs
     
-    def get_context_dict(self, request):       
+    def get_context_dict(self, request):
         context = super(ListView, self).get_context_dict(request)
         qs = self.get_query_set(request)
         context['page'] = paginate(request, qs, page_var=self.page_var, page_size=self.page_size)
         context['objects'] = qs
+        context['search_query'] = request.view_context.data['search_query']
         return context
         
  
